@@ -116,6 +116,7 @@ class Simulation:
         plt.plot(self.result['Timestamp'], self.result['SOC (%)'], marker='o', linestyle='-')
         plt.xlabel('Time (HH:MM)')
         plt.ylabel('State of Charge (%)')
+        plt.ylim(0, 100)
         plt.title(f'SOC Trajectory Over Simulation Period - {self.simulation_start_time.date()}')
         plt.grid(True)
         plt.xticks(rotation=45)
