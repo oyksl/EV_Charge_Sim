@@ -55,24 +55,34 @@ class ChargingUnit:
 
 # Simulation class
 class Simulation:
+    # Constructor
     def __init__(self, connection_time: datetime, disconnection_time: datetime, interval_minutes=15):
         self.simulation_start_time = connection_time.replace(hour=9, minute=0, second=0)
-        self.simulation_end_time = disconnection_time.replace(hour=21, minute=0, second=0)  
+        self.simulation_end_time = disconnection_time.replace(hour=21, minute=0, second=0) 
+
+        # Check if connection and disconnection times are on the same day 
         if connection_time.date() != disconnection_time.date():
-            raise ValueError("Connection and disconnection times must be on the same day!")      
+            raise ValueError("Connection and disconnection times must be on the same day!")   
+           
         self.interval = timedelta(minutes=interval_minutes)
         self.one_minute = timedelta(minutes=1)
         self.connection_time = connection_time
         self.disconnection_time = disconnection_time
+
+        # Check if connection and disconnection times are between 09:00 and 21:00
         if self.connection_time < self.simulation_start_time or self.disconnection_time > self.simulation_end_time\
             or self.connection_time > self.simulation_end_time or self.disconnection_time < self.simulation_start_time:
             raise ValueError("Connection and disconnection times must be between 09:00 and 21:00!")
+        
+        # Check if connection time is before disconnection time
         if self.connection_time >= self.disconnection_time:
             raise ValueError("Invalid connection or disconnection time!")
+        
         self.current_time = self.simulation_start_time
         self.data = []
         self.result = None
 
+    # Run method
     def run(self, ev: ElectricVehicle, charging_unit: ChargingUnit):
         net_energy_charged = 0
 
@@ -90,6 +100,7 @@ class Simulation:
             "Net Energy Charged (kWh)": net_energy_charged
         })
 
+        # Simulation loop
         while self.current_time < self.simulation_end_time:
             for i in range(int(self.interval.total_seconds()/60)):
                 if self.connection_time <= self.current_time < self.disconnection_time:
@@ -108,7 +119,9 @@ class Simulation:
                 "Net Energy Charged (kWh)": net_energy_charged
             })
             
-    def get_results(self, path: str = './results/'):
+    # Get results method        
+    def get_results(self, path: str = '../results/'):
+        # Save results as JSON, Excel and plot SOC trajectory
         self.result = pd.DataFrame(self.data)
         self.result.to_json(path+'simulation_results.json', orient='records', date_format='iso')
         self.result.to_excel(path+'simulation_results.xlsx', index=False)
