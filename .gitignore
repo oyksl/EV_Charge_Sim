@@ -1,0 +1,56 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Byte-compiled and cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and debug files
+*.log
+logs/
+debug.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment and secrets (DO NOT COMMIT API KEYS!)
+.env
+.envrc
+*.pem
+
+# Build and distribution
+dist/
+build/
+*.egg-info/
+
+# PyInstaller files
+*.spec
+
+# Coverage reports
+.coverage
+htmlcov/
+*.cover
+
+# Testing and profiling
+.tox/
+.nox/
+pytest_cache/
+prof/
+
+# Docker and CI/CD
+.dockerignore
+/.github/workflows/
